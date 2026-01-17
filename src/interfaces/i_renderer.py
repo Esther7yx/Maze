@@ -1,34 +1,38 @@
-# src/core/game_manager.py
+# src/interfaces/i_renderer.py
+from abc import ABC, abstractmethod
+import numpy as np
 
-class GameManager:
-    def __init__(self, renderer: IRenderer, gameplay: IGameplaySystem):
-        self.renderer = renderer
-        self.gameplay = gameplay
-        self.fps_monitor = PerfMonitor() # 你的 FPS 监控模块
+class IRenderer(ABC):
+    """
+    [成员 B 需实现此接口]
+    定义光线追踪渲染器的标准行为。
+    """
+    
+    @abstractmethod
+    def initialize(self, width: int, height: int):
+        """初始化渲染环境"""
+        pass
 
-    def game_loop(self):
-        while True:
-            # 1. 获取输入 (假设得到 mouse_click)
-            if mouse_click:
-                # [D 调用 C] 检测交互
-                event = self.gameplay.handle_interaction(cam_pos, mouse_ray)
-                
-                # [D 的核心调度逻辑] 
-                # 文档 : 机关触发 -> 调用光照参数更新
-                if event and event['type'] == 'ignite_torch':
-                    # C 告诉 D 火把点着了，D 负责通知 B 必须把灯打开
-                    light_id = event['target_id']
-                    self.renderer.update_light_param(light_id, 'intensity', 1.0)
-                    # D 通知 C 播放音效
-                    self.gameplay.trigger_feedback('fire_sound')
+    @abstractmethod
+    def load_model(self, model_data: dict):
+        """加载模型数据"""
+        pass
 
-            # 2. [D 性能优化] 检查帧率
-            # 文档 : 低帧率区域调整参数
-            current_fps = self.fps_monitor.get_fps()
-            if current_fps < 30:
-                self.renderer.set_quality_level(0) # 降级为低画质
-            else:
-                self.renderer.set_quality_level(2)
+    @abstractmethod
+    def render_frame(self):
+        """执行单帧渲染"""
+        pass
 
-            # 3. [D 调用 B] 渲染画面
-            self.renderer.render_frame(cam_pos, cam_dir, dt)
+    @abstractmethod
+    def update_light_param(self, light_id: int, param_type: str, value: float):
+        """
+        [关键接口] 响应机关触发带来的光照变化。
+        """
+        pass
+
+    @abstractmethod
+    def set_quality_level(self, level: int):
+        """
+        [性能优化接口] 0=低, 1=中, 2=高
+        """
+        pass

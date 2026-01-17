@@ -1,6 +1,7 @@
 """
 游戏管理器 - 单例模式，管理游戏状态
 """
+import time
 
 class GameManager:
     _instance = None
@@ -13,12 +14,27 @@ class GameManager:
     
     def __init__(self):
         if not self._initialized:
-            self.game_state = "menu"  # menu, playing, paused, game_over
+            self.game_state = "menu"
             self.current_level = 1
-            self.player_position = [0.0, 0.0, 0.0]
             self.score = 0
-            self.lives = 3
             self._initialized = True
+            
+            self.renderer = None
+            self.gameplay_system = None
+
+    def setup_systems(self, renderer, gameplay_system):
+        self.renderer = renderer
+        self.gameplay_system = gameplay_system
+        print("GameManager: 系统连接完成 (Renderer & Gameplay linked)")
+
+
+    def handle_event(self, event_type, data):
+        """
+        TODO: 等待成员 C 完成设计后，在这里编写具体的机关触发逻辑
+        例如：if event_type == 'open_door': ...
+        """
+        print(f"[GameManager] 收到事件: {event_type}, 数据: {data}")
+        pass
     
     def start_game(self):
         """开始游戏"""
