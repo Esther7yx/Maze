@@ -1,0 +1,32 @@
+# MazeGame 项目依赖库
+
+# 核心图形库
+PyOpenGL==3.1.7
+PyOpenGL-accelerate==3.1.7
+
+# 游戏开发框架（二选一）
+pygame==2.5.2
+# glfw==2.5.5  # 替代pygame的选项
+
+# 数学计算
+numpy==1.26.4
+
+# 图像处理
+Pillow==10.2.0
+
+# 音频处理
+pygame-mixer==2.5.2  # pygame的音频模块
+# pyaudio==0.2.14    # 替代音频库
+
+# 测试框架
+pytest==8.0.0
+pytest-cov==4.1.0
+
+# 代码质量
+flake8==7.0.0
+mypy==1.8.0
+black==24.1.1
+
+# 开发工具
+ipython==8.20.0
+jupyter==1.0.0
